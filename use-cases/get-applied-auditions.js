@@ -1,0 +1,15 @@
+/**
+ * Get all Auditions applied by user
+ * @param {auditionsDb}
+ */
+const makeGetAppliedAuditions = ({ auditionsDb, makeTransaction }) => {
+  return async ({ userId, after, limit }) => {
+    const result = await makeTransaction(async transaction => {
+      const { auditions, auditionsCount, since } = await auditionsDb.getAppliedAuditions({ userId, after, limit }, transaction)
+      return { auditions, auditionsCount, since }
+    })
+    return result
+  }
+}
+
+export default makeGetAppliedAuditions
